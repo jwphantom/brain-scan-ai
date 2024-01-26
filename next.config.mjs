@@ -1,4 +1,8 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+    images: {
+        domains: ["blob"] // Autorise les sources blob
+    }
+};
 
 export default nextConfig;
