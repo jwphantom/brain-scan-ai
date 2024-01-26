@@ -122,12 +122,11 @@ a {
   padding: 15px 40px;
   border-radius: 8px;
   background-color: #fff;
+  height: 400px;
 
   background: white;
   box-shadow: 0px 1px 3px rgba(65, 65, 65, 0.492);
   display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .cardBoxUpload {
@@ -188,8 +187,9 @@ a {
 }
 
 .buttonValidateDivBlock button {
+  margin-top: 20px;
+
   width: calc(50% - 10px); /* Ajustez '10px' pour contrôler l'espacement */
-  margin: 5px; /* Espacement autour des boutons */
 }
 
 .buttonValidateDivBlock button:nth-child(1) {
@@ -214,8 +214,53 @@ a {
   object-fit: contain; /* Maintient le ratio de l'image */
 }
 
+.transition-width {
+  transition: width 0.5s ease; /* Ajustez la durée et la fonction d'assouplissement selon vos besoins */
+}
+
+.metadata-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.metadata-table th,
+.metadata-table td {
+  text-align: left;
+  padding: 8px;
+  border-bottom: 1px solid #ddd; /* Ligne de séparation des rangées */
+}
+
+.metadata-table th {
+  background-color: #f2f2f2; /* Couleur de fond pour les entêtes de tableau */
+}
+
+.cardBoxMetadata {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.cardBoxMetadata .title {
+  margin-top: 10px;
+
+  margin-bottom: 10px;
+}
+
+.loadingContainer {
+  width: 100%;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
+  }
+}
+
+@media (max-width: 1024px) {
+  .cardBox {
+    margin-top: 20px;
   }
 }
