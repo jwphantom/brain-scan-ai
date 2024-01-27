@@ -2,9 +2,13 @@ import { useState } from "react";
 import Image from "next/image";
 import ToastCenter from "./Toast/ToastCenter";
 import uploadImageService from "../api/sendImage";
+import { toast } from "react-toastify";
 
 interface ImageUploadBoxProps {
     setIsUpload: any;
+    setResAnalyse: any;
+    setAnalyseIsFinish: any;
+    imageData: any;
     setImageData: any;
 }
 
@@ -15,13 +19,17 @@ interface ImageMetaData {
     // Vous pouvez ajouter d'autres champs si nécessaire
 }
 
-const ImageUploadBox: React.FC<ImageUploadBoxProps> = ({}) => {
+const ImageUploadBox: React.FC<ImageUploadBoxProps> = ({
+    imageData,
+    setImageData,
+    setResAnalyse,
+    setAnalyseIsFinish
+}) => {
     const [image, setImage] = useState<File | null>(null);
     const [imageSrc, setImageSrc] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
 
     const [isUpload, setIsUpload] = useState(false);
-    const [imageData, setImageData] = useState<ImageMetaData | null>(null);
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files && event.target.files[0];
@@ -60,6 +68,8 @@ const ImageUploadBox: React.FC<ImageUploadBoxProps> = ({}) => {
     };
 
     const handleValidate = () => {
+        setLoading(true);
+
         if (image) {
             const reader = new FileReader();
 
@@ -69,23 +79,41 @@ const ImageUploadBox: React.FC<ImageUploadBoxProps> = ({}) => {
                     const upload = new uploadImageService();
 
                     const response: any = await upload.sendImage(base64String);
+
+                    if (response.ok) {
+                        const res = await response.json();
+
+                        if (res.classname) {
+                            setResAnalyse(res);
+                            setAnalyseIsFinish(true);
+
+                            setIsUpload(false);
+                            setImage(null);
+                            setImageSrc(null);
+                            setLoading(false);
+                        } else {
+                            toast.error("Erreur côté serveur");
+                        }
+                    } else {
+                        toast.error("Erreur système, ressayez plutard!");
+                    }
                 } catch (error) {
+                    toast.error("Erreur système, ressayez plutard!");
+
                     console.error(
                         "Une erreur s'est produite lors de la requête :",
                         error
                     );
                 }
 
-                setLoading(true);
-
-                setTimeout(() => {
-                    setLoading(false);
-                    setIsUpload(false);
-                    setImage(null);
-                    setImageSrc(null);
-                    setImageData(null);
-                    handleCancel(); // Réinitialiser l'upload après le chargement
-                }, 5000);
+                // setTimeout(() => {
+                //     setLoading(false);
+                //     setIsUpload(false);
+                //     setImage(null);
+                //     setImageSrc(null);
+                //     setImageData(null);
+                //     handleCancel(); // Réinitialiser l'upload après le chargement
+                // }, 5000);
             };
 
             reader.readAsDataURL(image);
@@ -160,7 +188,21 @@ const ImageUploadBox: React.FC<ImageUploadBoxProps> = ({}) => {
 
                             <ToastCenter />
                         </div>
+                        {isUpload && (
+                            <div className=" buttonValidateDivBlock">
+                                <button
+                                    className="btn"
+                                    onClick={handleValidate}
+                                >
+                                    Valider
+                                </button>
+                                <button className="btn" onClick={handleCancel}>
+                                    Annuler
+                                </button>
+                            </div>
+                        )}
                     </div>
+
                     {isUpload && imageData && (
                         <div className="col-lg-6 col-md-12 col-sm-12 transition-width">
                             <div className="cardBox">
@@ -170,20 +212,20 @@ const ImageUploadBox: React.FC<ImageUploadBoxProps> = ({}) => {
                                     </div>
                                     <div className="metadata-table">
                                         <table className="col-12">
-                                            <thead>
-                                                <tr>
-                                                    <th>Propriété</th>
-                                                    <th>Valeur</th>
-                                                </tr>
-                                            </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td>Nom</td>
-                                                    <td>{imageData.name}</td>
+                                                    <td className="td_gray">
+                                                        Nom
+                                                    </td>
+                                                    <td className="td_bol">
+                                                        {imageData.name}
+                                                    </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Taille</td>
-                                                    <td>
+                                                    <td className="td_gray">
+                                                        Taille
+                                                    </td>
+                                                    <td className="td_bol">
                                                         {(
                                                             imageData.size /
                                                             1024
@@ -192,8 +234,12 @@ const ImageUploadBox: React.FC<ImageUploadBoxProps> = ({}) => {
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Type</td>
-                                                    <td>{imageData.type}</td>
+                                                    <td className="td_gray">
+                                                        Type
+                                                    </td>
+                                                    <td className="td_bol">
+                                                        {imageData.type}
+                                                    </td>
                                                 </tr>
                                                 {/* Insérez d'autres métadonnées ici si nécessaire */}
                                             </tbody>
@@ -201,16 +247,6 @@ const ImageUploadBox: React.FC<ImageUploadBoxProps> = ({}) => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    )}
-                    {isUpload && (
-                        <div className="buttonValidateDivBlock">
-                            <button className="btn" onClick={handleValidate}>
-                                Valider
-                            </button>
-                            <button className="btn" onClick={handleCancel}>
-                                Annuler
-                            </button>
                         </div>
                     )}
                 </>

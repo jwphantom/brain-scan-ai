@@ -1,12 +1,9 @@
 export class GlobalConstants {
-    //old server on heroku
-    //public static apiURL: string = "https://server-irdsm-aviation.herokuapp.com/api";
-
-    //new server on https://render.com/
-    //public static apiURL: string ="https://server-irdsm-aviation.onrender.com/api";
+    public static apiURL: string =
+        "https://isj-api-ml-backend.onrender.com/api";
 
     //local server
-    public static apiURL: string = "http://localhost:8000/api";
+    //public static apiURL: string = "http://localhost:8000/api";
 
     //app version
     public static version: string = "0.1.0";

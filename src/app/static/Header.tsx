@@ -10,10 +10,6 @@ import Image from "next/image";
 export default function Header() {
     const pathname = usePathname();
 
-    useEffect(() => {
-        console.log(pathname);
-    });
-
     const isActive = (path: string) => pathname === path;
 
     const activeBarRef = useRef<HTMLDivElement>(null);

@@ -8,17 +8,15 @@ export default class uploadImageService {
             .toString(36)
             .substr(2, 9)}`;
 
-        console.log(uid);
-
-        // return await fetch(`${GlobalConstants.apiURL}/analyse/analyse-mri`, {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json"
-        //     },
-        //     body: JSON.stringify({
-        //         uid: uid,
-        //         base64: base64
-        //     })
-        // });
+        return await fetch(`${GlobalConstants.apiURL}/analyse/analyse-mri`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                uid: uid,
+                base64: base64
+            })
+        });
     }
 }
