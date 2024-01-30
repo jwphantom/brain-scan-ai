@@ -341,7 +341,7 @@ a {
 
 ol,
 ul {
-  padding-left: 5rem;
+  padding-left: 0rem;
 }
 
 @media (prefers-color-scheme: dark) {
