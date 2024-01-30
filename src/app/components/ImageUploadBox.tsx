@@ -10,6 +10,7 @@ interface ImageUploadBoxProps {
     setAnalyseIsFinish: any;
     imageData: any;
     setImageData: any;
+    setIsClickUpload: any;
 }
 
 interface ImageMetaData {
@@ -23,7 +24,8 @@ const ImageUploadBox: React.FC<ImageUploadBoxProps> = ({
     imageData,
     setImageData,
     setResAnalyse,
-    setAnalyseIsFinish
+    setAnalyseIsFinish,
+    setIsClickUpload
 }) => {
     const [image, setImage] = useState<File | null>(null);
     const [imageSrc, setImageSrc] = useState<string | null>(null);
@@ -34,6 +36,7 @@ const ImageUploadBox: React.FC<ImageUploadBoxProps> = ({
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files && event.target.files[0];
         if (file) {
+            setIsClickUpload(true);
             setIsUpload(true);
             setImage(file);
             setImageSrc(URL.createObjectURL(file));
@@ -65,6 +68,7 @@ const ImageUploadBox: React.FC<ImageUploadBoxProps> = ({
         setImage(null);
         setImageSrc(null);
         setImageData(null);
+        setIsClickUpload(false);
     };
 
     const handleValidate = () => {
@@ -83,16 +87,31 @@ const ImageUploadBox: React.FC<ImageUploadBoxProps> = ({
                     if (response.ok) {
                         const res = await response.json();
 
-                        if (res.classname) {
-                            setResAnalyse(res);
-                            setAnalyseIsFinish(true);
+                        console.log(res.found_irm);
 
+                        if (res.found_irm) {
+                            if (res.classname) {
+                                setResAnalyse(res);
+                                setAnalyseIsFinish(true);
+
+                                setIsUpload(false);
+                                setImage(null);
+                                setImageSrc(null);
+                                setLoading(false);
+                            } else {
+                                toast.error("Erreur côté serveur");
+                            }
+                        } else {
+                            setImageData(null);
                             setIsUpload(false);
                             setImage(null);
                             setImageSrc(null);
                             setLoading(false);
-                        } else {
-                            toast.error("Erreur côté serveur");
+                            setIsClickUpload(false);
+
+                            toast.error(
+                                "Bien vouloir téléverser un scan d'une irm"
+                            );
                         }
                     } else {
                         toast.error("Erreur système, ressayez plutard!");
@@ -105,15 +124,6 @@ const ImageUploadBox: React.FC<ImageUploadBoxProps> = ({
                         error
                     );
                 }
-
-                // setTimeout(() => {
-                //     setLoading(false);
-                //     setIsUpload(false);
-                //     setImage(null);
-                //     setImageSrc(null);
-                //     setImageData(null);
-                //     handleCancel(); // Réinitialiser l'upload après le chargement
-                // }, 5000);
             };
 
             reader.readAsDataURL(image);
@@ -133,124 +143,130 @@ const ImageUploadBox: React.FC<ImageUploadBoxProps> = ({
                 </div>
             ) : (
                 <>
-                    <div
-                        className={`col-sm-12 col-lg-${
-                            isUpload ? "6" : "12"
-                        } col-md-12 transition-width`}
-                    >
+                    <div className="row">
                         <div
-                            className="cardBoxUpload"
-                            onClick={() =>
-                                document.getElementById("fileUpload")?.click()
-                            }
-                            onDrop={handleDrop}
-                            onDragOver={handleDragOver}
+                            className={`col-sm-12 col-lg-${
+                                isUpload ? "6" : "12"
+                            } col-md-12 transition-width`}
                         >
-                            <>
-                                {!image && (
-                                    <div className="uploadeImageIconDiv">
-                                        <Image
-                                            width={400}
-                                            height={300}
-                                            src="/upload3.png"
-                                            alt="Upload"
-                                        />
-                                        <input
-                                            type="file"
-                                            id="fileUpload"
-                                            accept="image/*"
-                                            hidden
-                                            onChange={handleFileChange}
-                                        />
-                                        <br />
-                                        <span>
-                                            Cliquer / Déposer pour analyser
-                                            votre imagerie
-                                        </span>
-                                    </div>
-                                )}
-                                {image && (
-                                    <div>
-                                        <div className="imageContainer">
+                            <div
+                                className="cardBoxUpload"
+                                onClick={() =>
+                                    document
+                                        .getElementById("fileUpload")
+                                        ?.click()
+                                }
+                                onDrop={handleDrop}
+                                onDragOver={handleDragOver}
+                            >
+                                <>
+                                    {!image && (
+                                        <div className="uploadeImageIconDiv">
                                             <Image
                                                 width={400}
                                                 height={300}
-                                                src={
-                                                    imageSrc ||
-                                                    "/public/upload.jpg"
-                                                }
-                                                alt="Uploaded"
+                                                src="/upload3.png"
+                                                alt="Upload"
                                             />
+                                            <input
+                                                type="file"
+                                                id="fileUpload"
+                                                accept="image/*"
+                                                hidden
+                                                onChange={handleFileChange}
+                                            />
+                                            <br />
+                                            <span>
+                                                Cliquer / Déposer pour analyser
+                                                votre imagerie
+                                            </span>
                                         </div>
-                                    </div>
-                                )}
-                            </>
-
-                            <ToastCenter />
-                        </div>
-                        {isUpload && (
-                            <div className=" buttonValidateDivBlock">
-                                <button
-                                    className="btn"
-                                    onClick={handleValidate}
-                                >
-                                    Valider
-                                </button>
-                                <button className="btn" onClick={handleCancel}>
-                                    Annuler
-                                </button>
+                                    )}
+                                    {image && (
+                                        <div>
+                                            <div className="imageContainer">
+                                                <Image
+                                                    width={400}
+                                                    height={300}
+                                                    src={
+                                                        imageSrc ||
+                                                        "/public/upload.jpg"
+                                                    }
+                                                    alt="Uploaded"
+                                                />
+                                            </div>
+                                        </div>
+                                    )}
+                                </>
                             </div>
-                        )}
-                    </div>
+                            {isUpload && (
+                                <div className=" buttonValidateDivBlock">
+                                    <button
+                                        className="btn"
+                                        onClick={handleValidate}
+                                    >
+                                        Valider
+                                    </button>
+                                    <button
+                                        className="btn"
+                                        onClick={handleCancel}
+                                    >
+                                        Annuler
+                                    </button>
+                                </div>
+                            )}
+                        </div>
 
-                    {isUpload && imageData && (
-                        <div className="col-lg-6 col-md-12 col-sm-12 transition-width">
-                            <div className="cardBox">
-                                <div className="cardBoxMetadata">
-                                    <div className="title">
-                                        <h4>Métadonées</h4>
-                                    </div>
-                                    <div className="metadata-table">
-                                        <table className="col-12">
-                                            <tbody>
-                                                <tr>
-                                                    <td className="td_gray">
-                                                        Nom
-                                                    </td>
-                                                    <td className="td_bol">
-                                                        {imageData.name}
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="td_gray">
-                                                        Taille
-                                                    </td>
-                                                    <td className="td_bol">
-                                                        {(
-                                                            imageData.size /
-                                                            1024
-                                                        ).toFixed(2)}{" "}
-                                                        KB
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="td_gray">
-                                                        Type
-                                                    </td>
-                                                    <td className="td_bol">
-                                                        {imageData.type}
-                                                    </td>
-                                                </tr>
-                                                {/* Insérez d'autres métadonnées ici si nécessaire */}
-                                            </tbody>
-                                        </table>
+                        {isUpload && imageData && (
+                            <div className="col-lg-6 col-md-12 col-sm-12 transition-width">
+                                <div className="cardBox">
+                                    <div className="cardBoxMetadata">
+                                        <div className="title">
+                                            <h4>Métadonées</h4>
+                                        </div>
+                                        <div className="metadata-table">
+                                            <table className="col-12">
+                                                <tbody>
+                                                    <tr>
+                                                        <td className="td_gray">
+                                                            Nom
+                                                        </td>
+                                                        <td className="td_bol">
+                                                            {imageData.name}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td className="td_gray">
+                                                            Taille
+                                                        </td>
+                                                        <td className="td_bol">
+                                                            {(
+                                                                imageData.size /
+                                                                1024
+                                                            ).toFixed(2)}{" "}
+                                                            KB
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td className="td_gray">
+                                                            Type
+                                                        </td>
+                                                        <td className="td_bol">
+                                                            {imageData.type}
+                                                        </td>
+                                                    </tr>
+                                                    {/* Insérez d'autres métadonnées ici si nécessaire */}
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    )}
+                        )}
+                    </div>
                 </>
             )}
+            <ToastCenter />
         </>
     );
 };

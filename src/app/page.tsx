@@ -36,6 +36,8 @@ export default function Home() {
 
     const [resAnalyse, setResAnalyse] = useState<ResAnalyse | null>(null);
 
+    const [isClickUpload, setIsClickUpload] = useState<boolean | null>(null);
+
     useEffect(() => {
         console.log(imageData);
     }, [imageData]);
@@ -47,22 +49,107 @@ export default function Home() {
             <div className="content">
                 <div className="container">
                     <div className="row">
-                        {!analyseIsFinish ? (
-                            <ImageUploadBox
-                                setIsUpload={setIsUpload}
-                                setAnalyseIsFinish={setAnalyseIsFinish}
-                                setResAnalyse={setResAnalyse}
-                                setImageData={setImageData}
-                                imageData={imageData}
-                            />
-                        ) : (
-                            <SummaryAnalyze
-                                resAnalyse={resAnalyse}
-                                imageData={imageData}
-                                setResAnalyse={setResAnalyse}
-                                setAnalyseIsFinish={setAnalyseIsFinish}
-                                setImageData={setImageData}
-                            />
+                        <div className={`col-md-${isClickUpload ? 12 : 9}`}>
+                            {!analyseIsFinish ? (
+                                <ImageUploadBox
+                                    setIsUpload={setIsUpload}
+                                    setAnalyseIsFinish={setAnalyseIsFinish}
+                                    setResAnalyse={setResAnalyse}
+                                    setImageData={setImageData}
+                                    imageData={imageData}
+                                    setIsClickUpload={setIsClickUpload}
+                                />
+                            ) : (
+                                <SummaryAnalyze
+                                    resAnalyse={resAnalyse}
+                                    imageData={imageData}
+                                    setResAnalyse={setResAnalyse}
+                                    setAnalyseIsFinish={setAnalyseIsFinish}
+                                    setImageData={setImageData}
+                                    setIsClickUpload={setIsClickUpload}
+                                />
+                            )}
+                        </div>
+                        {!isClickUpload && (
+                            <div className="col-md-3">
+                                <div className="cardPrice">
+                                    <div className="headerPrice">
+                                        <span className="titlePrice">Plan</span>
+                                        <span className="price">Free</span>
+                                    </div>
+                                    <p className="desc">
+                                        Prédiction sur 4 Classes.
+                                    </p>
+                                    <ul className="lists">
+                                        <li className="list">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
+                                            >
+                                                <path
+                                                    fill-rule="evenodd"
+                                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                                    clip-rule="evenodd"
+                                                ></path>
+                                            </svg>
+                                            <span>Glioma</span>
+                                        </li>
+                                        <li className="list">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
+                                            >
+                                                <path
+                                                    fill-rule="evenodd"
+                                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                                    clip-rule="evenodd"
+                                                ></path>
+                                            </svg>
+                                            <span>Meningioma</span>
+                                        </li>
+                                        <li className="list">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
+                                            >
+                                                <path
+                                                    fill-rule="evenodd"
+                                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                                    clip-rule="evenodd"
+                                                ></path>
+                                            </svg>
+                                            <span>Notumor</span>
+                                        </li>
+                                        <li className="list">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
+                                            >
+                                                <path
+                                                    fill-rule="evenodd"
+                                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                                    clip-rule="evenodd"
+                                                ></path>
+                                            </svg>
+                                            <span>Pituitary</span>
+                                        </li>
+                                    </ul>
+                                    <button
+                                        onClick={() =>
+                                            document
+                                                .getElementById("fileUpload")
+                                                ?.click()
+                                        }
+                                        className="action"
+                                    >
+                                        Commencer
+                                    </button>
+                                </div>
+                            </div>
                         )}
                     </div>
                 </div>
