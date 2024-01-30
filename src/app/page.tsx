@@ -49,7 +49,11 @@ export default function Home() {
             <div className="content">
                 <div className="container">
                     <div className="row">
-                        <div className={`col-md-${isClickUpload ? 12 : 9}`}>
+                        <div
+                            className={`col-lg-${
+                                isClickUpload ? 12 : 9
+                            } col-md-12`}
+                        >
                             {!analyseIsFinish ? (
                                 <ImageUploadBox
                                     setIsUpload={setIsUpload}
@@ -71,7 +75,7 @@ export default function Home() {
                             )}
                         </div>
                         {!isClickUpload && (
-                            <div className="col-md-3">
+                            <div className="cardPriceCol col-lg-3 col-md-0">
                                 <div className="cardPrice">
                                     <div className="headerPrice">
                                         <span className="titlePrice">Plan</span>

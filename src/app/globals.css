@@ -267,7 +267,6 @@ a {
   flex-wrap: wrap;
   align-items: stretch;
   margin-bottom: 2rem;
-  width: 320px;
   height: 400px;
 
   display: flex;
@@ -353,5 +352,11 @@ ul {
 @media (max-width: 1024px) {
   .cardBox {
     margin-top: 20px;
+  }
+}
+
+@media (max-width: 991px) {
+  .cardPriceCol {
+    display: none;
   }
 }
