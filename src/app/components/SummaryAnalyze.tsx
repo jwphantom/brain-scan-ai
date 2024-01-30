@@ -99,7 +99,13 @@ const SummaryAnalyze: React.FC<SummaryAnalyzeProps> = ({
                                             <td className="td_bol">
                                                 {(resAnalyse?.precision).toFixed(
                                                     2
-                                                )}
+                                                ) == 100.0
+                                                    ? (resAnalyse?.precision).toFixed(
+                                                          2
+                                                      ) - 0.01
+                                                    : (resAnalyse?.precision).toFixed(
+                                                          2
+                                                      )}
                                                 %
                                             </td>
                                         </tr>

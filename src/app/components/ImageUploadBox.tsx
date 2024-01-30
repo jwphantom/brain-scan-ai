@@ -114,9 +114,23 @@ const ImageUploadBox: React.FC<ImageUploadBoxProps> = ({
                             );
                         }
                     } else {
+                        setImageData(null);
+                        setIsUpload(false);
+                        setImage(null);
+                        setImageSrc(null);
+                        setLoading(false);
+                        setIsClickUpload(false);
+
                         toast.error("Erreur système, ressayez plutard!");
                     }
                 } catch (error) {
+                    setImageData(null);
+                    setIsUpload(false);
+                    setImage(null);
+                    setImageSrc(null);
+                    setLoading(false);
+                    setIsClickUpload(false);
+
                     toast.error("Erreur système, ressayez plutard!");
 
                     console.error(
