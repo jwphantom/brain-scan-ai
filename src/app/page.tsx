@@ -76,7 +76,7 @@ export default function Home() {
                         </div>
                         {!isClickUpload && (
                             <div className="cardPriceCol col-lg-3 col-md-0">
-                                <div className="cardPrice">
+                                <div className="cardPrice transition-width">
                                     <div className="headerPrice">
                                         <span className="titlePrice">Plan</span>
                                         <span className="price">Free</span>
