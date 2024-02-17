@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 "use client";
 
 import Image from "next/image";
@@ -6,10 +7,12 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-regular-svg-icons/faUser";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Header from "./static/Header";
 import ImageUploadBox from "./components/ImageUploadBox";
 import SummaryAnalyze from "./components/SummaryAnalyze";
+import { faStar } from "@fortawesome/free-regular-svg-icons";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 interface ResAnalyse {
     campath: string;
@@ -42,119 +45,42 @@ export default function Home() {
         console.log(imageData);
     }, [imageData]);
 
+    const router = useRouter();
+
+    const routeTo = (route: string) => {
+        router.push(route);
+    };
+
     return (
         <main>
             <Header />
-
-            <div className="content">
-                <div className="container">
-                    <div className="row">
-                        <div
-                            className={`col-lg-${
-                                isClickUpload ? 12 : 9
-                            } col-md-12`}
+            <Image
+                src="/interior-empty-science-laboratory-with-modern-equipment-prepared-treatment-innovation-nervous-system-using-high-tech-microbiology-tools-scientific-research-neurological-lab.jpg"
+                alt="Description of the image"
+                className="background-image"
+                width={700}
+                height={700}
+            />
+            <div className="image-overlay">
+                <div className="image-overlay-text">
+                    <div className="rating-info">
+                        <h1>
+                            Application de Scan médicale <br />
+                        </h1>
+                        <p style={{ fontWeight: 200 }}>
+                            Faites vos scan d'irm de cerveau et obtenez de vos
+                            resultats en mois d'une minutes.
+                        </p>
+                        <button
+                            className="btn-start-application"
+                            onClick={() => routeTo("/analyse")}
                         >
-                            {!analyseIsFinish ? (
-                                <ImageUploadBox
-                                    setIsUpload={setIsUpload}
-                                    setAnalyseIsFinish={setAnalyseIsFinish}
-                                    setResAnalyse={setResAnalyse}
-                                    setImageData={setImageData}
-                                    imageData={imageData}
-                                    setIsClickUpload={setIsClickUpload}
-                                />
-                            ) : (
-                                <SummaryAnalyze
-                                    resAnalyse={resAnalyse}
-                                    imageData={imageData}
-                                    setResAnalyse={setResAnalyse}
-                                    setAnalyseIsFinish={setAnalyseIsFinish}
-                                    setImageData={setImageData}
-                                    setIsClickUpload={setIsClickUpload}
-                                />
-                            )}
-                        </div>
-                        {!isClickUpload && (
-                            <div className="cardPriceCol col-lg-3 col-md-0">
-                                <div className="cardPrice transition-width">
-                                    <div className="headerPrice">
-                                        <span className="titlePrice">Plan</span>
-                                        <span className="price">Free</span>
-                                    </div>
-                                    <p className="desc">
-                                        Prédiction sur 4 Classes.
-                                    </p>
-                                    <ul className="lists">
-                                        <li className="list">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 20 20"
-                                                fill="currentColor"
-                                            >
-                                                <path
-                                                    fill-rule="evenodd"
-                                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                                    clip-rule="evenodd"
-                                                ></path>
-                                            </svg>
-                                            <span>Glioma</span>
-                                        </li>
-                                        <li className="list">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 20 20"
-                                                fill="currentColor"
-                                            >
-                                                <path
-                                                    fill-rule="evenodd"
-                                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                                    clip-rule="evenodd"
-                                                ></path>
-                                            </svg>
-                                            <span>Meningioma</span>
-                                        </li>
-                                        <li className="list">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 20 20"
-                                                fill="currentColor"
-                                            >
-                                                <path
-                                                    fill-rule="evenodd"
-                                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                                    clip-rule="evenodd"
-                                                ></path>
-                                            </svg>
-                                            <span>Notumor</span>
-                                        </li>
-                                        <li className="list">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 20 20"
-                                                fill="currentColor"
-                                            >
-                                                <path
-                                                    fill-rule="evenodd"
-                                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                                    clip-rule="evenodd"
-                                                ></path>
-                                            </svg>
-                                            <span>Pituitary</span>
-                                        </li>
-                                    </ul>
-                                    <button
-                                        onClick={() =>
-                                            document
-                                                .getElementById("fileUpload")
-                                                ?.click()
-                                        }
-                                        className="action"
-                                    >
-                                        Commencer
-                                    </button>
-                                </div>
-                            </div>
-                        )}
+                            Commencer &nbsp;
+                            <FontAwesomeIcon
+                                style={{ width: 15 }}
+                                icon={faArrowRight}
+                            />
+                        </button>
                     </div>
                 </div>
             </div>

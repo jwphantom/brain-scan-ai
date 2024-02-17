@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-regular-svg-icons/faUser";
 import { usePathname } from "next/navigation";
@@ -32,7 +32,7 @@ export default function Header() {
 
     return (
         <>
-            <div className="header">
+            <header>
                 <div ref={activeBarRef} className="active-bar" />
                 <div className="container">
                     <div className="menu">
@@ -46,22 +46,24 @@ export default function Header() {
                                 />
                             </Link>
                             <Link
-                                href="/"
+                                href="/analyse"
                                 className={
-                                    isActive("/") ? "active-link" : "menu-link"
+                                    isActive("/analyse")
+                                        ? "active-link"
+                                        : "menu-link"
                                 }
                             >
                                 Diagnostic
                             </Link>
                             <Link
-                                href="/history"
+                                href="/about"
                                 className={
-                                    isActive("/history")
+                                    isActive("/about")
                                         ? "active-link"
                                         : "menu-link"
                                 }
                             >
-                                Historique
+                                A propos
                             </Link>
                         </div>
                         <div>
@@ -71,7 +73,7 @@ export default function Header() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </header>
         </>
     );
 }

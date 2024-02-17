@@ -70,12 +70,22 @@ a {
   text-decoration: none;
 }
 
-.header {
+header {
   background: white;
   box-shadow: 0px 2px 4px rgba(110, 110, 110, 0.154);
   border-bottom: 0.1rem solid rgba(140, 140, 140, 0.154);
   padding: 30px 10px;
   position: relative;
+  z-index: 1000;
+}
+
+/* Classe à ajouter lors du défilement */
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%; /* Pour s'assurer qu'il occupe toute la largeur */
+  background-color: #fff; /* ou toute autre couleur de fond */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Effet d'ombre */
 }
 
 .menu {
@@ -93,7 +103,7 @@ a {
   text-decoration: none;
   font-weight: 500;
   margin-right: 20px;
-  color: #000; /* Couleur pour le lien actif */
+  color: #175e6d; /* Couleur pour le lien actif */
 }
 
 .menu-link {
@@ -107,7 +117,7 @@ a {
   bottom: 0;
   left: 0;
   height: 4px;
-  background-color: #000;
+  background-color: #175e6d;
   transition:
     left 0.3s,
     width 0.3s; /* Animation de la barre */
@@ -272,7 +282,7 @@ a {
   display: flex;
   flex-direction: column;
   border-radius: 8px;
-  background-color: rgb(0, 0, 0);
+  background-color: #175e6d;
   padding: 1.5rem;
 }
 
@@ -299,13 +309,13 @@ a {
   margin-top: 0.75rem;
   margin-bottom: 0.75rem;
   line-height: 1.625;
-  color: rgba(156, 163, 175, 1);
+  color: rgb(215, 215, 215);
 }
 
 .cardPrice .lists {
   margin-bottom: 1.5rem;
   flex: 1 1 0%;
-  color: rgba(156, 163, 175, 1);
+  color: rgb(227, 227, 227);
 }
 
 .cardPrice .lists .list {
@@ -341,6 +351,103 @@ a {
 ol,
 ul {
   padding-left: 1rem;
+}
+
+.content-block {
+  position: relative;
+}
+
+.full-page-image {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.background-image {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(62, 62, 62, 0.5); /* Couleur de fond semi-transparente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-overlay-text {
+  text-align: center;
+  color: #fff;
+  overflow: auto; /* Ajout de la propriété overflow pour éviter le débordement */
+}
+
+.stars .star {
+  color: gold;
+  width: 18px;
+  margin-left: 4px;
+}
+
+.rating-info h1 {
+  font-size: 4em;
+  font-weight: 600;
+  margin: 10px 0;
+}
+
+.rating-info p {
+  margin-top: 10px;
+  font-size: 1.2em;
+  font-weight: 300;
+}
+
+.btn-start-application {
+  background-color: #137b8b;
+  color: #fff;
+  padding: 17px 80px;
+  font-size: 1.2em;
+  font-weight: 400;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-start-application:hover {
+  background-color: #fff;
+  color: #137b8b;
+}
+
+.about .cardAbout {
+  background-color: #fff;
+  background: white;
+  box-shadow: 0px 1px 3px rgba(65, 65, 65, 0.492);
+  padding: 15px;
+}
+
+.about .cardAbout h2,
+.about .cardAbout h3 {
+  color: #137b8b;
+  text-transform: uppercase;
+  font-size: 24px;
+}
+
+.about .cardAbout p {
+  font-size: 15px;
+  font-weight: 200;
+}
+
+.about .cardAbout ul {
+  font-size: 15px;
+  font-weight: 200;
+  margin-left: 20px;
 }
 
 @media (prefers-color-scheme: dark) {
