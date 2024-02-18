@@ -69,7 +69,7 @@ export default function Home() {
                         </h1>
                         <p style={{ fontWeight: 200 }}>
                             Faites vos scan d'irm de cerveau et obtenez de vos
-                            resultats en mois d'une minutes.
+                            resultats en moins d'une minute.
                         </p>
                         <button
                             className="btn-start-application"
